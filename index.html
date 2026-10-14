@@ -1,1 +1,138 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SmartFarm</title></head><body><h1>SmartFarm</h1><p>Initializing the SmartFarm website.</p></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b13">
+  <meta name="description" content="SmartFarm connects IoT-based irrigation, farm-zone monitoring, equipment alerts, crop information and planning in one intelligent farm management platform.">
+  <title>SmartFarm — Grow more with every drop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="progress"><span id="progressBar"></span></div>
+  <header class="header" id="top">
+    <a class="brand" href="#top" aria-label="SmartFarm home"><span class="brand-icon">✳</span><span>smart<span class="brand-lime">farm</span><small>INTELLIGENT AGRICULTURE</small></span></a>
+    <nav class="nav" aria-label="Main navigation"><a href="#platform">Platform</a><a href="#features">Features</a><a href="#workflow">How it works</a><a href="#project">The project</a></nav>
+    <a class="header-cta" href="#dashboard">Explore dashboard <b>↗</b></a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"><a href="#platform">Platform</a><a href="#features">Features</a><a href="#workflow">How it works</a><a href="#project">The project</a><a href="#dashboard">Explore dashboard ↗</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-photo" aria-hidden="true"></div><div class="hero-shade" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="eyebrow appear"><i></i> IoT-POWERED FARM INTELLIGENCE <span></span></div>
+        <h1 class="appear delay-1">Grow more.<br><em>Waste less.</em><br>Know everything.</h1>
+        <p class="hero-copy appear delay-2">A smarter way to care for every corner of your farm. Connect soil sensors, automate irrigation, and make confident decisions from one simple dashboard.</p>
+        <div class="hero-buttons appear delay-3"><a class="button button-lime" href="#dashboard">Explore the dashboard <b>↗</b></a><a class="quiet-link" href="#platform">Discover the platform <b>↓</b></a></div>
+        <div class="hero-proof appear delay-3"><span class="proof-mark">✳</span><div><strong>One connected farm.</strong><small>From soil signals to smarter decisions.</small></div><i class="proof-divider"></i><span class="proof-note"><i></i> Built for real-world farming</span></div>
+      </div>
+      <aside class="hero-widget" aria-label="Illustrative farm readings">
+        <div class="widget-head"><div class="widget-brand"><span>✳</span><div><b>Farm overview</b><small>Field station · Sample</small></div></div><span class="demo-tag"><i></i> DEMO</span></div>
+        <div class="widget-stats"><div><small>Soil moisture</small><b><span id="heroMoisture">42</span><sup>%</sup></b><i class="tiny-meter"><u style="width:42%"></u></i><small>Across 4 zones</small></div><div><small>Water flow</small><b>12.4<sup> L/m</sup></b><svg class="tiny-chart" viewBox="0 0 100 24"><path d="M0 18 C10 17 10 4 22 11 S37 21 47 10 S60 5 70 13 S87 19 100 4"/></svg><small>Example reading</small></div></div>
+        <div class="widget-section-title"><b>Moisture by zone</b><span>4 zones ↗</span></div>
+        <div class="widget-zone"><i class="dot green"></i><span>North field</span><b>72%</b><div><u style="width:72%"></u></div></div>
+        <div class="widget-zone"><i class="dot orange"></i><span>Orchard</span><b>24%</b><div><u style="width:24%"></u></div></div>
+        <div class="widget-zone"><i class="dot green"></i><span>Vegetables</span><b>65%</b><div><u style="width:65%"></u></div></div>
+        <div class="widget-note"><span>✓</span><div><b>One zone needs attention</b><small>Illustrative status · No live hardware</small></div><strong>↗</strong></div>
+      </aside>
+      <div class="hero-side-label"><span>01</span><i></i><span>PRECISION · CARE · GROWTH</span></div>
+      <a class="scroll-cue" href="#platform"><i></i> SCROLL TO EXPLORE</a>
+    </section>
+
+    <div class="promise-strip"><div class="container promise-inner"><span>BUILT AROUND YOUR FARM</span><div><b>01</b> Sense the soil</div><i></i><div><b>02</b> Automate water</div><i></i><div><b>03</b> Stay informed</div><i></i><div><b>04</b> Plan ahead</div></div></div>
+
+    <section class="section intro" id="platform"><div class="container intro-grid">
+      <div class="kicker reveal"><span>THE BIGGER PICTURE</span><b>01 / 05</b></div>
+      <div class="intro-copy reveal"><h2>A farm is a living system.<br><em>Your tools should be, too.</em></h2><p>Traditional irrigation can mean guesswork, unnecessary water use, and checking every field by hand. SmartFarm brings your sensors and farm routines together, helping you respond to what each zone actually needs.</p><a class="arrow-link" href="#workflow">See the system in action <b>↗</b></a></div>
+      <aside class="intro-aside reveal"><b>01<span>—</span>04</b><p>One connected view of soil, water, equipment, and the decisions that keep your farm moving.</p><div class="rings" aria-hidden="true"><i></i><i></i><i></i></div></aside>
+    </div></section>
+
+    <section class="section dashboard-section" id="dashboard"><div class="container">
+      <div class="section-head reveal"><div><div class="kicker"><span>YOUR FARM, AT A GLANCE</span><b>LIVE DEMO</b></div><h2>From field signals<br>to <em>clear decisions.</em></h2></div><p>This interactive preview uses sample data to show how a connected farm dashboard could work. It is not connected to physical sensors or a real pump.</p></div>
+      <div class="dashboard reveal">
+        <aside class="dash-side"><a class="dash-logo" href="#dashboard"><span>✳</span><div>fieldnotes<small>SMART FARM OS</small></div></a><div class="side-label">WORKSPACE</div>
+          <button class="side-link active" data-view="overview"><span>◫</span> Overview</button><button class="side-link" data-view="zones"><span>▦</span> Farm zones <b>4</b></button><button class="side-link" data-view="schedule"><span>◷</span> Schedule</button><button class="side-link" data-view="alerts"><span>◎</span> Alerts <b class="alert-count">2</b></button>
+          <div class="side-profile"><span>SF</span><div><b>Sample farm</b><small>College prototype</small></div><i>⌄</i></div>
+        </aside>
+        <div class="dash-main">
+          <div class="dash-header"><div><div class="crumb">Workspace <span>/</span> <b id="viewTitle">Overview</b></div><h3>Good evening, farmer <span>✳</span></h3><p>Here’s a look at your farm today.</p></div><div class="dash-tools"><span class="sample-label"><i></i> DEMO DATA</span><button id="refreshDemo" aria-label="Refresh sample readings" title="Refresh sample readings">↻</button></div></div>
+          <div class="metric-grid">
+            <article class="metric"><div class="metric-label">Average soil moisture <span>◉</span></div><strong class="metric-number"><b id="averageMoisture">42</b><small>%</small></strong><p><b class="positive">↗ Sample</b> across 4 zones</p><div class="meter"><i id="averageMeter" style="width:42%"></i></div></article>
+            <article class="metric"><div class="metric-label">Water flow <span class="blue-icon">≋</span></div><strong class="metric-number"><b id="flowValue">0.0</b><small> L/min</small></strong><p id="flowNote">Pump simulated off</p><svg class="metric-spark" viewBox="0 0 200 28"><path d="M0 22 C20 22 20 3 40 12 S60 27 80 15 S100 3 120 14 S145 23 162 12 S185 20 200 3"/></svg></article>
+            <article class="metric"><div class="metric-label">Pump status <span class="orange-icon">ϟ</span></div><strong class="metric-number pump-number"><i id="pumpDot"></i><b id="pumpStatus">OFF</b></strong><p id="pumpNote">Manual demo control</p><div class="switch-row"><button id="pumpSwitch" class="switch" role="switch" aria-checked="false" aria-label="Toggle simulated pump"><i></i></button><span id="switchLabel">Tap to start demo</span></div></article>
+            <article class="metric"><div class="metric-label">Weather snapshot <span class="sun-icon">☼</span></div><div class="weather"><strong>27°</strong><span><b>Partly cloudy</b><small>Illustrative forecast</small></span></div><p><b class="rain">☂ 25%</b> rain probability (sample)</p><div class="weather-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+          </div>
+          <div class="dash-panels">
+            <article class="panel zones-panel"><div class="panel-head"><div><h4>Field zone status</h4><p>Illustrative sensor readings</p></div><button class="plain-link" data-open-zones>All zones ↗</button></div><div class="zone-list" id="zoneList">
+              <div class="zone-row" data-zone="0"><span class="crop-icon leaf">✳</span><div class="zone-name"><b>North field</b><small>Ragi · Zone 01</small></div><div class="zone-value"><b>72%</b><small>Healthy</small></div><div class="zone-meter"><i style="width:72%"></i></div></div>
+              <div class="zone-row needs-water" data-zone="1"><span class="crop-icon tree">♧</span><div class="zone-name"><b>Orchard</b><small>Coconut · Zone 02</small></div><div class="zone-value"><b>24%</b><small>Needs water</small></div><div class="zone-meter"><i style="width:24%"></i></div></div>
+              <div class="zone-row" data-zone="2"><span class="crop-icon tomato">❋</span><div class="zone-name"><b>Vegetables</b><small>Tomato · Zone 03</small></div><div class="zone-value"><b>65%</b><small>Healthy</small></div><div class="zone-meter"><i style="width:65%"></i></div></div>
+              <div class="zone-row" data-zone="3"><span class="crop-icon seed">❧</span><div class="zone-name"><b>East plot</b><small>Mixed crops · Zone 04</small></div><div class="zone-value"><b>38%</b><small>Monitor</small></div><div class="zone-meter"><i style="width:38%"></i></div></div>
+            </div><div class="zone-key"><span><i class="green-key"></i> Healthy</span><span><i class="orange-key"></i> Needs attention</span><small>Thresholds vary by crop and soil.</small></div></article>
+            <article class="panel tasks-panel"><div class="panel-head"><div><h4>Up next</h4><p>Farm care checklist</p></div><span class="today-tag">TODAY</span></div><div class="task-progress"><span id="taskCount">1 of 3 complete</span><div><i id="taskBar" style="width:33%"></i></div></div>
+              <label class="task-row"><input type="checkbox" class="task-check" checked><i></i><span><b>Check soil sensors</b><small>Quick sensor health check</small></span><time>09:00</time></label>
+              <label class="task-row"><input type="checkbox" class="task-check"><i></i><span><b>Inspect irrigation filter</b><small>Clean if debris is present</small></span><time>11:30</time></label>
+              <label class="task-row"><input type="checkbox" class="task-check"><i></i><span><b>Review orchard moisture</b><small>Zone 02 · Sample reminder</small></span><time>17:00</time></label>
+              <button id="addTask" class="add-task">＋ Add a demo reminder</button>
+            </article>
+          </div>
+          <div class="dash-panels bottom-panels">
+            <article class="panel trend-panel"><div class="panel-head"><div><h4>Moisture trend</h4><p>Example readings throughout the day</p></div><span class="today-tag">Today · demo</span></div><div class="chart"><div class="chart-y"><span>80%</span><span>60%</span><span>40%</span><span>20%</span></div><div class="chart-main"><div class="chart-grid"><i></i><i></i><i></i><i></i></div><svg viewBox="0 0 600 160" preserveAspectRatio="none" aria-label="Example moisture trend"><defs><linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8cba62" stop-opacity=".28"/><stop offset="1" stop-color="#8cba62" stop-opacity="0"/></linearGradient></defs><path class="chart-area" d="M0 108 C35 102 42 70 75 83 S125 111 157 87 S205 65 240 80 S290 115 325 84 S371 52 405 69 S455 90 490 59 S540 50 565 53 S590 36 600 32 L600 160 L0 160Z"/><path class="chart-stroke" d="M0 108 C35 102 42 70 75 83 S125 111 157 87 S205 65 240 80 S290 115 325 84 S371 52 405 69 S455 90 490 59 S540 50 565 53 S590 36 600 32"/></svg><div class="chart-x"><span>06:00</span><span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span></div></div></div></article>
+            <article class="panel alerts-panel"><div class="panel-head"><div><h4>Attention needed</h4><p>Example system messages</p></div><span class="alert-number" id="alertNumber">2</span></div><div class="alert-row"><i class="alert-icon">!</i><div><b>Low moisture · Orchard</b><small>24% sample reading · Review irrigation</small></div><time>Now</time></div><div class="alert-row"><i class="alert-icon blue-alert">↗</i><div><b>Maintenance reminder</b><small>Inspect filters and valve connections</small></div><time>Today</time></div><button class="plain-link" id="clearAlerts">Mark demo alerts reviewed ✓</button></article>
+          </div>
+          <div class="dash-disclaimer">DEMO ENVIRONMENT · No sensor, pump, camera, weather service or live data is connected.</div>
+        </div>
+      </div>
+      <div class="demo-note reveal"><span>✳</span><p><b>Explore it like a real dashboard.</b> Switch the demo pump on and off, open the zone view, and check off tasks. Live control needs connected hardware and a secure backend.</p><a class="arrow-link" href="#features">Explore capabilities <b>↗</b></a></div>
+    </div></section>
+
+    <section class="section feature-section" id="features"><div class="container">
+      <div class="section-head reveal"><div><div class="kicker"><span>ONE PLATFORM, MANY USES</span><b>02 / 05</b></div><h2>Not just irrigation.<br><em>A better-informed farm.</em></h2></div><p>Build from a practical sensor prototype toward a complete farm management experience, one module at a time.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card feature-wide reveal"><div class="feature-card-top"><span>01 / WATER</span><b>⌁</b></div><div class="field-art" aria-hidden="true"><div class="field-grooves"></div><div class="water-orbit orbit-a"></div><div class="water-orbit orbit-b"></div><span class="sensor-pin pin-a">◉ <small>Zone 01</small></span><span class="sensor-pin pin-b">◉ <small>Zone 02</small></span><span class="valve-chip">VALVE CONTROL <i>●</i></span></div><h3>Precision irrigation</h3><p>Monitor each area independently, set crop-aware thresholds, and direct water only where it is needed.</p><div class="tags"><span>Zone monitoring</span><span>Auto / manual / scheduled</span></div></article>
+        <article class="feature-card reveal"><div class="feature-card-top"><span>02 / SAFETY</span><b>ϟ</b></div><div class="safety-art" aria-hidden="true"><i></i><i></i><i></i><span>✓</span><small class="safety-a">FLOW</small><small class="safety-b">VOLTAGE</small><small class="safety-c">MOTOR</small></div><h3>Equipment protection</h3><p>Detect possible dry-run events, track water flow, and surface electrical issues through suitable safety equipment.</p><div class="tags"><span>Flow detection</span><span>Alerts</span></div></article>
+        <article class="feature-card reveal"><div class="feature-card-top"><span>03 / INSIGHT</span><b>⌘</b></div><div class="insight-art" aria-hidden="true"><span>☼</span><div><i></i><i></i><i></i></div><small>Forecast + field data</small><svg viewBox="0 0 210 45"><path d="M0 36 L23 27 L46 31 L69 15 L96 24 L121 10 L148 18 L171 5 L193 14 L210 2"/></svg></div><h3>Useful farm intelligence</h3><p>Bring weather context, crop-market information, nutrient guidance, and cultivation tasks into one workflow.</p><div class="tags"><span>Decision support</span><span>Farm planning</span></div></article>
+        <article class="feature-card camera-card reveal"><div class="camera-copy"><div class="feature-card-top"><span>04 / VISIBILITY</span><b>◉</b></div><h3>Your farm, even when you’re away.</h3><p>View system status remotely, receive alerts, and connect an IP camera when your hardware and chosen service support it.</p><div class="tags"><span>Remote monitoring</span><span>CCTV-ready</span></div></div><div class="camera-art" aria-label="Illustrative farm camera preview"><div class="sky"></div><div class="hills"></div><div class="camera-fields"><i></i><i></i><i></i><i></i></div><span class="camera-label"><i></i> CAMERA PREVIEW</span><span class="camera-cross">＋</span><small>DEMO / NO LIVE FEED</small></div></article>
+      </div>
+    </div></section>
+
+    <section class="section workflow-section" id="workflow"><div class="container">
+      <div class="workflow-intro reveal"><div class="kicker"><span>MADE TO WORK TOGETHER</span><b>03 / 05</b></div><h2>Small signals.<br><em>Smarter actions.</em></h2><p>Sense the field, check safety, deliver water, verify the result, and keep a record.</p></div>
+      <div class="steps">
+        <article class="step-card reveal"><div class="step-top"><span>01</span><b>◉</b></div><div class="step-art step-sensor"><div class="soil"></div><i class="sensor-stem"></i><i class="sensor-head"></i><i class="sensor-wave one"></i><i class="sensor-wave two"></i></div><h3>Sense</h3><p>Read soil moisture by zone, alongside environmental and equipment signals.</p><small>INPUT · SENSOR DATA</small></article><span class="step-arrow">↗</span>
+        <article class="step-card reveal"><div class="step-top"><span>02</span><b>⌘</b></div><div class="step-art step-decide"><div class="decision">MOISTURE<br><strong>BELOW SETPOINT?</strong></div><span class="yes">YES</span><span class="no">NO</span></div><h3>Decide</h3><p>Check crop thresholds, water availability, and configured safety conditions.</p><small>LOGIC · SAFE TO RUN?</small></article><span class="step-arrow">↗</span>
+        <article class="step-card reveal"><div class="step-top"><span>03</span><b>≋</b></div><div class="step-art step-water"><i class="pipe-h"></i><i class="pipe-v"></i><span class="pipe-valve">✳</span><span class="water-drop drop-one">●</span><span class="water-drop drop-two">●</span><small>ZONE 02</small></div><h3>Deliver</h3><p>Select the appropriate valve, run irrigation, and confirm that water is moving.</p><small>ACTION · CONTROL VALVE</small></article><span class="step-arrow">↗</span>
+        <article class="step-card reveal"><div class="step-top"><span>04</span><b>✓</b></div><div class="step-art step-record"><span class="record-check">✓</span><i class="record-line line-1"></i><i class="record-line line-2"></i><i class="record-line line-3"></i><small>● RECORD SAVED</small></div><h3>Learn & log</h3><p>Stop at the target, record the session, and alert the farmer if needed.</p><small>RESULT · HISTORY + ALERTS</small></article>
+      </div>
+      <div class="safety-callout reveal"><span>!</span><div><b>Designed with electrical safety in mind</b><p>An ESP32 must never connect directly to mains voltage. A real pump installation needs correctly rated isolation, protection, and motor controls checked by a qualified person.</p></div><a class="arrow-link" href="#project">Project details <b>↗</b></a></div>
+    </div></section>
+
+    <section class="section project-section" id="project"><div class="container">
+      <div class="section-head reveal"><div><div class="kicker"><span>ENGINEERED IN PHASES</span><b>04 / 05</b></div><h2>Start with a prototype.<br><em>Design for what’s next.</em></h2></div><p>The college project can begin with a small, safe demonstration and expand as hardware, data sources, and application services become available.</p></div>
+      <div class="architecture reveal"><div class="architecture-head"><div><small>SYSTEM ARCHITECTURE</small><h3>Every layer has a role.</h3></div><span><i></i> CONCEPT VIEW</span></div><div class="architecture-flow"><div class="arch-node"><b>⌂</b><strong>Farmer</strong><small>Mobile / Web</small></div><span class="connector"><small>HTTPS / API</small><i></i></span><div class="arch-node cloud"><b>◌</b><strong>Application</strong><small>Logic · Data · Alerts</small></div><span class="connector"><small>Wi-Fi / MQTT</small><i></i></span><div class="arch-node controller"><b>ϟ</b><strong>ESP32</strong><small>Sensor decisions</small></div><span class="connector"><small>GPIO / drivers</small><i></i></span><div class="arch-node field"><b>⌁</b><strong>Farm devices</strong><small>Sensors · Valves · Pump</small></div></div><div class="arch-legend"><span><i></i> Hardware layer</span><span><i></i> Application layer</span><span><i></i> Communication</span></div></div>
+      <div class="stack-grid"><article class="stack-card reveal"><span>01</span><b>ϟ</b><h3>IoT hardware</h3><p>ESP32, capacitive soil sensors, temperature/humidity, water-flow, water-level and suitable isolated voltage monitoring.</p><small>PHYSICAL LAYER</small></article><article class="stack-card reveal"><span>02</span><b>⌘</b><h3>Web + mobile</h3><p>A responsive website for this demo, with a future dashboard or Flutter app for connected controls and notifications.</p><small>USER EXPERIENCE</small></article><article class="stack-card reveal"><span>03</span><b>◌</b><h3>Backend + storage</h3><p>Future integration can use Firebase or a Node/Python API and a database for sensor data, irrigation history, users and alerts.</p><small>INTEGRATION LAYER</small></article></div>
+      <div class="roadmap reveal"><div class="roadmap-head"><div class="kicker"><span>A PRACTICAL BUILD ORDER</span></div><h3>Make the basics reliable first.</h3><p>Illustrative implementation roadmap based on the project proposal.</p></div><div class="roadmap-grid"><article><small>PHASE 01</small><b>✓</b><h4>Sense & display</h4><p>ESP32, sensor input, sample dashboard.</p><label>FOUNDATION</label></article><article><small>PHASE 02</small><b>02</b><h4>Automate zones</h4><p>Multiple sensors, safe motor control, and valves.</p><label>IRRIGATION</label></article><article><small>PHASE 03</small><b>03</b><h4>Add protection</h4><p>Flow, current, voltage protection and alerts.</p><label>SAFETY</label></article><article><small>PHASE 04</small><b>04</b><h4>Connect farm data</h4><p>Weather, crop info, scheduling and CCTV service.</p><label>EXPANSION</label></article></div></div>
+    </div></section>
+
+    <section class="section principles"><div class="container principles-grid"><div class="principles-copy reveal"><div class="kicker"><span>BUILT AROUND BETTER PRACTICE</span><b>05 / 05</b></div><h2>More visibility.<br><em>Less guesswork.</em></h2><p>SmartFarm is designed to support better-informed irrigation and farm-maintenance decisions—not replace local agronomic advice or safe operating practices.</p><a class="button button-dark" href="#faq">Read the important details <b>↗</b></a></div><div class="principle-list reveal"><article><span>01</span><div><b>Zone by zone</b><p>Set thresholds around crop, soil, weather and irrigation method rather than assuming one setting fits every field.</p></div></article><article><span>02</span><div><b>Safety first</b><p>Use flow checks and suitable electrical protection to support safer pump operation.</p></div></article><article><span>03</span><div><b>Plan as you grow</b><p>Start with a college prototype, then add verified data sources and real devices in stages.</p></div></article></div></div></section>
+
+    <section class="section faq-section" id="faq"><div class="container faq-grid"><div class="reveal"><div class="kicker"><span>GOOD TO KNOW</span><b>FAQ</b></div><h2>Clear expectations.<br><em>Better farming.</em></h2><p>A few notes about what the website demonstrates today and what a connected farm system would still need.</p></div><div class="faq-list reveal">
+      <details><summary>Is the dashboard connected to real sensors?<span>＋</span></summary><p>No. This is an interactive frontend prototype with illustrative values. Live readings require installed hardware, a data connection, and a backend or IoT service.</p></details>
+      <details><summary>Can I control a real pump from this page?<span>＋</span></summary><p>No. The pump switch is a visual simulation only. Secure authentication, backend commands, hardware interlocks, and professionally checked electrical protection are required before live control.</p></details>
+      <details><summary>Are crop prices and fertilizer advice live?<span>＋</span></summary><p>No live agricultural-market feed or agronomy service is configured. Current prices need a reliable licensed source. Recommendations should account for crop, soil, growth stage, region and local agricultural guidance.</p></details>
+      <details><summary>Can this website run on GitHub Pages?<span>＋</span></summary><p>Yes. The frontend uses static HTML, CSS and JavaScript. GitHub Actions can publish it without a separate application server.</p></details>
+    </div></div></section>
+
+    <section class="final-cta"><div class="cta-orbit orbit-a"></div><div class="cta-orbit orbit-b"></div><div class="container cta-content reveal"><span class="cta-mark">✳</span><small>THE NEXT STEP STARTS IN THE FIELD</small><h2>Let the data guide<br><em>the next drop.</em></h2><p>Smart irrigation. Connected decisions. A project built to grow.</p><div class="cta-buttons"><a class="button button-lime" href="#dashboard">Try the dashboard <b>↗</b></a><a class="button button-outline" href="https://github.com/shreyas2006R/smart-farming" target="_blank" rel="noreferrer">View project repository <b>↗</b></a></div></div><div class="cta-footer"><span>SMARTFARM / PROJECT 2026–2027</span><span>GROW WITH INTENTION.</span></div></section>
+  </main>
+  <footer class="footer"><div class="container footer-top"><a class="brand" href="#top"><span class="brand-icon">✳</span><span>smart<span class="brand-lime">farm</span><small>INTELLIGENT AGRICULTURE</small></span></a><p>Thoughtful technology for the work that feeds us.</p><a href="#top">Back to top ↑</a></div><div class="container footer-bottom"><span>© <span id="year">2026</span> SmartFarm · Engineering project concept</span><span>Static frontend · GitHub Pages ready</span><span>Sample data only — not connected to hardware.</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"><span>✳</span><p id="toastMessage">Demo updated.</p><button id="toastClose" aria-label="Dismiss notification">×</button></div>
+  <dialog class="zone-dialog" id="zoneDialog"><div class="dialog-head"><div><small>FARM ZONES / DEMO</small><h3>Zone details</h3></div><button id="closeDialog" aria-label="Close zone details">×</button></div><p>Sample moisture readings for demonstration. Actual thresholds depend on crop, soil and conditions.</p><div id="dialogZones"></div><button class="button button-dark dialog-done" id="dialogDone">Done <b>✓</b></button></dialog>
+</body>
+</html>
