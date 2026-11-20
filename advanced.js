@@ -370,11 +370,11 @@
     const stored = (() => { try { return localStorage.getItem('smartfarm.language.v1'); } catch (_) { return null; } })();
     if (stored && copy[stored]) {
       applyLanguage(stored);
-      $('#languageGate').classList.remove('visible');
     } else {
       applyLanguage('en');
-      $('#languageGate').classList.add('visible');
+      try { localStorage.setItem('smartfarm.language.v1', 'en'); } catch (_) { /* English remains the session default */ }
     }
+    // English is the default main language; users can still change it from the header.
     $$('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
       applyLanguage(code);
