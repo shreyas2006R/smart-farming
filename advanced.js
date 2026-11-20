@@ -149,7 +149,10 @@
       hi:['प्लेटफ़ॉर्म','विशेषताएँ','कैसे काम करता है','परियोजना','डैशबोर्ड देखें'],
       ml:['പ്ലാറ്റ്ഫോം','സവിശേഷതകൾ','എങ്ങനെ പ്രവർത്തിക്കുന്നു','പ്രോജക്റ്റ്','ഡാഷ്ബോർഡ് തുറക്കുക']
     }[language];
-    if (nav && navText) $$('.nav a, .mobile-nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
+    if (nav && navText) {
+      $('.nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
+      $('.mobile-nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
+    }
     const title = $('.hero h1');
     if (title && language !== 'en') {
       const heroText = {
