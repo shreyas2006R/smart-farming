@@ -10,8 +10,9 @@ export default async function handler(req, res) {
   const prompt = typeof req.body?.prompt === 'string' ? req.body.prompt.trim() : '';
   if (!prompt || prompt.length > 3000) return res.status(400).json({ error: 'A question of up to 3000 characters is required.' });
 
+  const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
   try {
-    const upstream = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent', {
+    const upstream = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify({
