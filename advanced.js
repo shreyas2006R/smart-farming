@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
-  const langNames = { kn: 'ಕನ್ನಡ', ta: 'தமிழ்', te: 'తెలుగు', hi: 'हिन्दी', ml: 'മലയാളം' };
+  const langNames = { en: 'English', kn: 'ಕನ್ನಡ', ta: 'தமிழ்', te: 'తెలుగు', hi: 'हिन्दी', ml: 'മലയാളം' };
   const copy = {
     kn: {
       chooseLang:'ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ', languageIntro:'ಸ್ಮಾರ್ಟ್‌ಫಾರ್ಮ್ ಅನ್ನು ನಿಮ್ಮ ಆಯ್ಕೆಯ ಭಾಷೆಯಲ್ಲಿ ಓದಿ. ನಂತರವೂ ಭಾಷೆ ಬದಲಾಯಿಸಬಹುದು.',
