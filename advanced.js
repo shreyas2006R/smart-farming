@@ -482,7 +482,7 @@
     all('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
       const status = $('#languageStatus');
-      const choices = $('.language-choice');
+      const choices = all('.language-choice');
       choices.forEach((item) => { item.disabled = true; });
       if (status) status.textContent = 'Applying ' + langNames[code] + '…';
       const finish = () => {
