@@ -382,6 +382,16 @@
     $('#languageGate').classList.add('visible');
     $('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
+      // GTranslate handles the complete page; the local dictionary keeps dynamic dashboard controls translated too.
+      const widgetSelect = $('#gtranslate_widget select');
+      if (widgetSelect) {
+        const option = Array.from(widgetSelect.options).find((item) => item.value.split('|').pop() === code);
+        if (option) {
+          widgetSelect.value = option.value;
+          widgetSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+      if (typeof window.doGTranslate === 'function') window.doGTranslate('en|' + code);
       applyLanguage(code);
       try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) { /* selection still works for this visit */ }
       $('#languageGate').classList.remove('visible');
