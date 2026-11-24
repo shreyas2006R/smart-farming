@@ -499,7 +499,7 @@
       };
       if (code === 'en') {
         restoreOriginalPageText();
-        applyLanguage('en');
+        language = 'en';
         finish();
       } else {
         translateWholePageWithAI(code)
