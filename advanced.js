@@ -128,7 +128,39 @@
     document.body.insertAdjacentHTML('beforeend',
       '<div class="language-gate" id="languageGate" role="dialog" aria-modal="true" aria-labelledby="languageGateTitle"><div class="language-box"><span class="brand-icon">✳</span><small>SMARTFARM · WELCOME</small><h2 id="languageGateTitle">Choose your language</h2><p id="languageIntro">Read SmartFarm in your preferred language. You can change this later.</p><div class="language-options">' +
       Object.keys(langNames).map((code) => '<button type="button" class="language-choice" data-language="' + code + '">' + langNames[code] + '<span>→</span></button>').join('') +
-      '</div><span class="language-foot">ಕನ್ನಡ · தமிழ் · తెలుగు · हिन्दी · മലയാളം</span></div></div>');
+      '</div><p class="language-status" id="languageStatus" role="status" aria-live="polite"></p><span class="language-foot">ಕನ್ನಡ · தமிழ் · తెలుగు · हिन्दी · മലയാളം</span></div></div>');
+  }
+
+  function activateSiteTranslation(code, onReady, onError, attempt = 0) {
+    const selector = document.querySelector('#gtranslate_widget select, .gtranslate_wrapper select, select.gt_selector');
+    const translator = typeof window.doGTranslate === 'function' ? window.doGTranslate : null;
+    try {
+      // GTranslate's own handler is the most reliable path; call it even when its
+      // hidden dropdown exists so the widget's translation engine is always invoked.
+      if (translator) {
+        translator('en|' + code);
+        onReady();
+        return;
+      }
+      if (selector) {
+        const option = Array.from(selector.options).find((item) =>
+          item.value === ('en|' + code) || item.value.endsWith('|' + code) || item.value === code
+        );
+        if (option) {
+          selector.value = option.value;
+          selector.dispatchEvent(new Event('change', { bubbles: true }));
+          onReady();
+          return;
+        }
+      }
+    } catch (error) {
+      if (attempt >= 30) { onError(); return; }
+    }
+    if (attempt < 30) {
+      window.setTimeout(() => activateSiteTranslation(code, onReady, onError, attempt + 1), 250);
+    } else {
+      onError();
+    }
   }
 
   function applyLanguage(code) {
@@ -382,24 +414,31 @@
     $('#languageGate').classList.add('visible');
     $('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
-      // GTranslate handles the complete page; the local dictionary keeps dynamic dashboard controls translated too.
-      const widgetSelect = $('#gtranslate_widget select');
-      if (widgetSelect) {
-        const option = Array.from(widgetSelect.options).find((item) => item.value.split('|').pop() === code);
-        if (option) {
-          widgetSelect.value = option.value;
-          widgetSelect.dispatchEvent(new Event('change', { bubbles: true }));
+      const status = $('#languageStatus');
+      const choices = $('.language-choice');
+      choices.forEach((item) => { item.disabled = true; });
+      if (status) status.textContent = 'Applying ' + langNames[code] + '…';
+      const finish = () => {
+        language = code;
+        document.documentElement.lang = code;
+        const languageButton = $('#changeLanguage');
+        if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
+        try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) { /* selection still works for this visit */ }
+        $('#languageGate').classList.remove('visible');
+        choices.forEach((item) => { item.disabled = false; });
+      };
+      const fail = () => {
+        choices.forEach((item) => { item.disabled = false; });
+        if (status) status.textContent = 'The translation service did not load. Check your internet connection and try again.';
+      };
+      if (code === 'en') {
+        if (typeof window.doGTranslate === 'function') {
+          try { window.doGTranslate('en|en'); } catch (_) { /* English is the source language */ }
         }
-      } else if (typeof window.doGTranslate === 'function') {
-        window.doGTranslate('en|' + code);
+        finish();
+      } else {
+        activateSiteTranslation(code, finish, fail);
       }
-      // Keep the selected locale for AI prompts and dynamic dashboard controls.
-      language = code;
-      document.documentElement.lang = code;
-      const languageButton = $('#changeLanguage');
-      if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
-      try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) { /* selection still works for this visit */ }
-      $('#languageGate').classList.remove('visible');
     }));
     initIrrigation(); initProtection(); initFarmerAI(); initNotes(); initReminders();
     removeOldArchitecture();
