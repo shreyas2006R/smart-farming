@@ -132,6 +132,71 @@
       '</div><p class="language-status" id="languageStatus" role="status" aria-live="polite"></p><span class="language-foot">ಕನ್ನಡ · தமிழ் · తెలుగు · हिन्दी · മലയാളം</span></div></div>');
   }
 
+  // AI translation is served by the separate Cloudflare Worker. Never put the Gemini key in this file.
+  const TRANSLATION_API = window.SMARTFARM_TRANSLATION_API || '';
+  let originalPageText = null;
+  function captureOriginalPageText() {
+    if (originalPageText) return;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      const parent = node.parentElement;
+      if (!parent || parent.closest('script,style,noscript,textarea,code,pre')) continue;
+      if (node.nodeValue.trim()) textNodes.push({ node, value: node.nodeValue });
+    }
+    const attributes = [];
+    document.querySelectorAll('input,textarea,button,[aria-label],[title]').forEach((el) => {
+      ['placeholder','aria-label','title'].forEach((attr) => {
+        if (el.hasAttribute(attr) && el.getAttribute(attr).trim()) {
+          attributes.push({ el, attr, value: el.getAttribute(attr) });
+        }
+      });
+    });
+    originalPageText = { textNodes, attributes };
+  }
+
+  function restoreOriginalPageText() {
+    if (!originalPageText) return;
+    originalPageText.textNodes.forEach(({node,value}) => { if (node.isConnected) node.nodeValue = value; });
+    originalPageText.attributes.forEach(({el,attr,value}) => { if (el.isConnected) el.setAttribute(attr,value); });
+  }
+
+  async function translateWholePageWithAI(code) {
+    if (!TRANSLATION_API) {
+      throw new Error('AI translation is not connected yet. The translation Worker must be deployed and its URL configured.');
+    }
+    captureOriginalPageText();
+    restoreOriginalPageText();
+    const texts = originalPageText.textNodes.filter(x => x.node.isConnected).map(x => x.value);
+    const attrs = originalPageText.attributes.filter(x => x.el.isConnected);
+    const allValues = texts.concat(attrs.map(x => x.value));
+    const translated = [];
+    for (let i = 0; i < allValues.length; i += 35) {
+      const response = await fetch(TRANSLATION_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ language: code, texts: allValues.slice(i, i + 35) })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !Array.isArray(data.translations)) {
+        throw new Error(data.error || 'AI translation request failed.');
+      }
+      translated.push(...data.translations);
+    }
+    originalPageText.textNodes.forEach(({node}, i) => {
+      if (node.isConnected && typeof translated[i] === 'string') node.nodeValue = translated[i];
+    });
+    originalPageText.attributes.forEach(({el,attr}, i) => {
+      const value = translated[texts.length + i];
+      if (el.isConnected && typeof value === 'string') el.setAttribute(attr, value);
+    });
+    language = code;
+    document.documentElement.lang = code;
+    const languageButton = $('#changeLanguage');
+    if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
+  }
+
   function activateSiteTranslation(code, onReady, onError, attempt = 0) {
     const selector = document.querySelector('#gtranslate_widget select, .gtranslate_wrapper select, select.gt_selector');
     const translator = typeof window.doGTranslate === 'function' ? window.doGTranslate : null;
@@ -410,7 +475,8 @@
     addLanguageOverlay();
     addLanguageButton();
     const stored = (() => { try { return localStorage.getItem('smartfarm.language.v1'); } catch (_) { return null; } })();
-    applyLanguage(stored && copy[stored] ? stored : 'en');
+    language = stored && copy[stored] ? stored : 'en';
+    document.documentElement.lang = 'en';
     // Always show the language chooser on entry; the saved language is pre-applied until a new choice is made.
     $('#languageGate').classList.add('visible');
     all('.language-choice').forEach((button) => button.addEventListener('click', () => {
@@ -420,8 +486,6 @@
       choices.forEach((item) => { item.disabled = true; });
       if (status) status.textContent = 'Applying ' + langNames[code] + '…';
       const finish = () => {
-        // Apply the site's built-in translations after the full-page translator is activated.
-        applyLanguage(code);
         document.documentElement.lang = code;
         const languageButton = $('#changeLanguage');
         if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
@@ -429,17 +493,18 @@
         $('#languageGate').classList.remove('visible');
         choices.forEach((item) => { item.disabled = false; });
       };
-      const fail = () => {
+      const fail = (error) => {
         choices.forEach((item) => { item.disabled = false; });
-        if (status) status.textContent = 'The translation service did not load. Check your internet connection and try again.';
+        if (status) status.textContent = error?.message || 'AI translation failed. Please check the translation service and try again.';
       };
       if (code === 'en') {
-        if (typeof window.doGTranslate === 'function') {
-          try { window.doGTranslate('en|en'); } catch (_) { /* English is the source language */ }
-        }
+        restoreOriginalPageText();
+        applyLanguage('en');
         finish();
       } else {
-        activateSiteTranslation(code, finish, fail);
+        translateWholePageWithAI(code)
+          .then(finish)
+          .catch((error) => fail(error));
       }
     }));
     initIrrigation(); initProtection(); initFarmerAI(); initNotes(); initReminders();
