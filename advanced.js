@@ -390,9 +390,14 @@
           widgetSelect.value = option.value;
           widgetSelect.dispatchEvent(new Event('change', { bubbles: true }));
         }
+      } else if (typeof window.doGTranslate === 'function') {
+        window.doGTranslate('en|' + code);
       }
-      if (typeof window.doGTranslate === 'function') window.doGTranslate('en|' + code);
-      applyLanguage(code);
+      // Keep the selected locale for AI prompts and dynamic dashboard controls.
+      language = code;
+      document.documentElement.lang = code;
+      const languageButton = $('#changeLanguage');
+      if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
       try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) { /* selection still works for this visit */ }
       $('#languageGate').classList.remove('visible');
     }));
