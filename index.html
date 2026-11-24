@@ -11,8 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="advanced.css">
+  <script>
+    window.gtranslateSettings = {
+      default_language: 'en',
+      languages: ['en', 'kn', 'hi', 'ta', 'te', 'ml'],
+      wrapper_selector: '#gtranslate_widget'
+    };
+  </script>
   <script defer src="script.js"></script>
-  <script defer src="advanced.js?v=20261124-languages"></script>
+  <script defer src="advanced.js?v=20261124-full-language"></script>
+  <script defer src="https://cdn.gtranslate.net/widgets/latest/dropdown.js"></script>
 </head>
 <body>
   <div class="progress"><span id="progressBar"></span></div>
@@ -134,6 +142,7 @@
     <section class="final-cta"><div class="cta-orbit orbit-a"></div><div class="cta-orbit orbit-b"></div><div class="container cta-content reveal"><span class="cta-mark">✳</span><small>THE NEXT STEP STARTS IN THE FIELD</small><h2>Let the data guide<br><em>the next drop.</em></h2><p>Smart irrigation. Connected decisions. A project built to grow.</p><div class="cta-buttons"><a class="button button-lime" href="#dashboard">Try the dashboard <b>↗</b></a><a class="button button-outline" href="https://github.com/shreyas2006R/smart-farming" target="_blank" rel="noreferrer">View project repository <b>↗</b></a></div></div><div class="cta-footer"><span>SMARTFARM / PROJECT 2026–2027</span><span>GROW WITH INTENTION.</span></div></section>
   </main>
   <footer class="footer"><div class="container footer-top"><a class="brand" href="#top"><span class="brand-icon">✳</span><span>smart<span class="brand-lime">farm</span><small>INTELLIGENT AGRICULTURE</small></span></a><p>Thoughtful technology for the work that feeds us.</p><a href="#top">Back to top ↑</a></div><div class="container footer-bottom"><span>© <span id="year">2026</span> SmartFarm · Engineering project concept</span><span>Static frontend · GitHub Pages ready</span><span>Sample data only — not connected to hardware.</span></div></footer>
+  <div id="gtranslate_widget" class="gtranslate_wrapper" aria-hidden="true"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"><span>✳</span><p id="toastMessage">Demo updated.</p><button id="toastClose" aria-label="Dismiss notification">×</button></div>
   <dialog class="zone-dialog" id="zoneDialog"><div class="dialog-head"><div><small>FARM ZONES / DEMO</small><h3>Zone details</h3></div><button id="closeDialog" aria-label="Close zone details">×</button></div><p>Sample moisture readings for demonstration. Actual thresholds depend on crop, soil and conditions.</p><div id="dialogZones"></div><button class="button button-dark dialog-done" id="dialogDone">Done <b>✓</b></button></dialog>
 </body>
