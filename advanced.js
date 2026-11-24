@@ -139,19 +139,21 @@
     const gateTitle = $('#languageGateTitle'); const intro = $('#languageIntro');
     if (gateTitle) gateTitle.textContent = t('chooseLang');
     if (intro) intro.textContent = t('languageIntro');
-    const change = $('#changeLanguage'); if (change) change.textContent = t('changeLanguage');
     // Localise the main navigation and the most-used dashboard labels.
     const nav = $('.nav');
-    const navText = {
+    const navText = ({
+      en:['Platform','Features','How it works','The project','Explore dashboard'],
       kn:['ವೇದಿಕೆ','ವೈಶಿಷ್ಟ್ಯಗಳು','ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ','ಯೋಜನೆ','ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ತೆರೆಯಿರಿ'],
       ta:['தளம்','அம்சங்கள்','எப்படி செயல்படுகிறது','திட்டம்','டாஷ்போர்டைத் திற'],
       te:['ప్లాట్‌ఫారమ్','ఫీచర్లు','ఇది ఎలా పనిచేస్తుంది','ప్రాజెక్ట్','డాష్‌బోర్డ్ చూడండి'],
-      hi:['प्लेटफ़ॉर्म','विशेषताएँ','कैसे काम करता है','परियोजना','डैशबोर्ड देखें'],
+      hi:['प्लेटफ़ॉर्म','विशेषताएँ','कैसे काम करता है','परियोजना','डैష్‌బోర్డ్ देखें'],
       ml:['പ്ലാറ്റ്ഫോം','സവിശേഷതകൾ','എങ്ങനെ പ്രവർത്തിക്കുന്നു','പ്രോജക്റ്റ്','ഡാഷ്ബോർഡ് തുറക്കുക']
-    }[language];
+    })[language];
     if (nav && navText) {
       $('.nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
       $('.mobile-nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
+      const mobileLast = $('.mobile-nav a:last-child');
+      if (mobileLast) mobileLast.textContent = navText[4] + ' ↗';
     }
     const title = $('.hero h1');
     if (title) {
@@ -376,6 +378,8 @@
     addLanguageButton();
     const stored = (() => { try { return localStorage.getItem('smartfarm.language.v1'); } catch (_) { return null; } })();
     applyLanguage(stored && copy[stored] ? stored : 'en');
+    // Always show the language chooser on entry; the saved language is pre-applied until a new choice is made.
+    $('#languageGate').classList.add('visible');
     $('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
       applyLanguage(code);
