@@ -1,6 +1,7 @@
 (() => {
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
+  const $ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const langNames = { en: 'English', kn: 'ಕನ್ನಡ', ta: 'தமிழ்', te: 'తెలుగు', hi: 'हिन्दी', ml: 'മലയാളം' };
   const copy = {
     kn: {
@@ -419,7 +420,8 @@
       choices.forEach((item) => { item.disabled = true; });
       if (status) status.textContent = 'Applying ' + langNames[code] + '…';
       const finish = () => {
-        language = code;
+        // Apply the site's built-in translations after the full-page translator is activated.
+        applyLanguage(code);
         document.documentElement.lang = code;
         const languageButton = $('#changeLanguage');
         if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
