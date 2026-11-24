@@ -519,47 +519,35 @@
     dashboard.insertAdjacentHTML('afterend', moduleMarkup);
     addLanguageOverlay();
     addLanguageButton();
-    const params = new URLSearchParams(window.location.search);
-    const requestedLanguage = params.get('lang');
-    const stored = (() => { try { return localStorage.getItem('smartfarm.language.v1'); } catch (_) { return null; } })();
-    const validLanguage = (code) => code === 'en' || !!copy[code];
-    language = validLanguage(requestedLanguage) ? requestedLanguage : (validLanguage(stored) ? stored : 'en');
-    document.documentElement.lang = 'en';
-
+    const pageName = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const pageCode = pageName.replace('.html', '');
+    const requestedLanguage = ['kn','hi','ta','te','ml'].includes(pageCode) ? pageCode : 'en';
+    language = requestedLanguage;
+    document.documentElement.lang = requestedLanguage;
     const gate = $('#languageGate');
+    if (requestedLanguage !== 'en') gate.classList.remove('visible');
+    else if (!sessionStorage.getItem('smartfarm.languageChosen')) gate.classList.add('visible');
     const languageButton = $('#changeLanguage');
-    if (validLanguage(requestedLanguage)) {
-      gate.classList.remove('visible');
-      if (languageButton) languageButton.textContent = 'Language: ' + langNames[requestedLanguage];
-      translateWholePageWithAI(requestedLanguage).then(() => {
-        try { localStorage.setItem('smartfarm.language.v1', requestedLanguage); } catch (_) {}
-      }).catch((error) => {
-        gate.classList.add('visible');
-        const status = $('#languageStatus');
-        if (status) status.textContent = error?.message || 'Translation could not be loaded. Please try again.';
-      });
-    } else {
-      gate.classList.add('visible');
-    }
-
+    if (languageButton) languageButton.textContent = 'Language: ' + langNames[requestedLanguage];
     all('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
-      const status = $('#languageStatus');
-      const choices = all('.language-choice');
-      choices.forEach((item) => { item.disabled = true; });
-      if (status) status.textContent = 'Opening ' + langNames[code] + ' page…';
-      try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) {}
-      const target = new URL(window.location.href);
-      if (code === 'en') target.searchParams.delete('lang');
-      else target.searchParams.set('lang', code);
-      // Each language gets its own shareable URL/page view.
-      window.location.assign(target.toString());
+      try { sessionStorage.setItem('smartfarm.languageChosen', '1'); } catch (_) {}
+      const target = code === 'en' ? 'index.html' : code + '.html';
+      window.location.assign(new URL(target, window.location.href).toString());
     }));
     initIrrigation(); initProtection(); initFarmerAI(); initNotes(); initReminders();
     removeOldArchitecture();
     const modulesLink = document.createElement('a');
-    modulesLink.href = '#farm-controls'; modulesLink.textContent = 'Farm controls'; modulesLink.className = 'advanced-nav-link';
+    modulesLink.href = '#farm-controls'; modulesLink.textContent = requestedLanguage === 'kn' ? 'ಕೃಷಿ ನಿಯಂತ್ರಣ' :
+      requestedLanguage === 'hi' ? 'खेत नियंत्रण' : requestedLanguage === 'ta' ? 'பண்ணை கட்டுப்பாடு' :
+      requestedLanguage === 'te' ? 'వ్యవసాయ నియంత్రణ' : requestedLanguage === 'ml' ? 'കൃഷി നിയന്ത്രണം' : 'Farm controls';
+    modulesLink.className = 'advanced-nav-link';
     const nav = $('.nav'); if (nav) nav.insertBefore(modulesLink, nav.lastElementChild);
+    if (requestedLanguage !== 'en') {
+      applyLanguage(requestedLanguage);
+      if (window.applySmartFarmStaticLocale) window.applySmartFarmStaticLocale(requestedLanguage);
+      document.documentElement.lang = requestedLanguage;
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
