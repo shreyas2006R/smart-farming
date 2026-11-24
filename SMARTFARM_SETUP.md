@@ -27,3 +27,10 @@ If you continue using GitHub Pages only, the rest of the website works and the a
 - Field notes and reminders stay in local browser storage on the device.
 - The AI prompt asks the model not to invent shop names, stock, prices or fertilizer doses. Always verify agricultural advice against a current soil test and local agriculture/KVK guidance.
 - Never use the simulation switches to operate a real motor. Real pump and electrical controls require separately engineered, tested safety hardware and a qualified installer.
+
+## AI website translation
+The language selector now uses the Gemini-powered Cloudflare Worker in `translation-worker/` to translate the full visible page into Kannada, Hindi, Tamil, Telugu or Malayalam. The public GitHub Pages frontend intentionally contains no Gemini key.
+
+To enable it, follow `translation-worker/README.md`: deploy the Worker, set the fresh key with `wrangler secret put GEMINI_API_KEY`, then set `window.SMARTFARM_TRANSLATION_API` in `index.html` to the exact Worker URL and commit. Until that URL and secret are configured, non-English selection reports that AI translation is not connected instead of pretending the page was translated.
+
+The previously shared Gemini key should be revoked and replaced before deployment.
