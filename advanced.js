@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
-  const $ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+  const all = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const langNames = { en: 'English', kn: 'ಕನ್ನಡ', ta: 'தமிழ்', te: 'తెలుగు', hi: 'हिन्दी', ml: 'മലയാളം' };
   const copy = {
     kn: {
@@ -220,7 +220,7 @@
 
   function initIrrigation() {
     const shares = [65, 35], valves = [false, false];
-    const valveButtons = $$('[data-valve]');
+    const valveButtons = all('[data-valve]');
     function render() {
       for (let i = 0; i < 2; i++) {
         $('#share' + i).value = String(shares[i]);
