@@ -519,32 +519,41 @@
     dashboard.insertAdjacentHTML('afterend', moduleMarkup);
     addLanguageOverlay();
     addLanguageButton();
+    const params = new URLSearchParams(window.location.search);
+    const requestedLanguage = params.get('lang');
     const stored = (() => { try { return localStorage.getItem('smartfarm.language.v1'); } catch (_) { return null; } })();
-    language = stored && copy[stored] ? stored : 'en';
+    const validLanguage = (code) => code === 'en' || !!copy[code];
+    language = validLanguage(requestedLanguage) ? requestedLanguage : (validLanguage(stored) ? stored : 'en');
     document.documentElement.lang = 'en';
-    // Always show the language chooser on entry; the saved language is pre-applied until a new choice is made.
-    $('#languageGate').classList.add('visible');
+
+    const gate = $('#languageGate');
+    const languageButton = $('#changeLanguage');
+    if (validLanguage(requestedLanguage)) {
+      gate.classList.remove('visible');
+      if (languageButton) languageButton.textContent = 'Language: ' + langNames[requestedLanguage];
+      translateWholePageWithAI(requestedLanguage).then(() => {
+        try { localStorage.setItem('smartfarm.language.v1', requestedLanguage); } catch (_) {}
+      }).catch((error) => {
+        gate.classList.add('visible');
+        const status = $('#languageStatus');
+        if (status) status.textContent = error?.message || 'Translation could not be loaded. Please try again.';
+      });
+    } else {
+      gate.classList.add('visible');
+    }
+
     all('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
       const status = $('#languageStatus');
       const choices = all('.language-choice');
       choices.forEach((item) => { item.disabled = true; });
-      if (status) status.textContent = 'Applying ' + langNames[code] + '…';
-      const finish = () => {
-        document.documentElement.lang = code;
-        const languageButton = $('#changeLanguage');
-        if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
-        try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) { /* selection still works for this visit */ }
-        $('#languageGate').classList.remove('visible');
-        choices.forEach((item) => { item.disabled = false; });
-      };
-      const fail = (error) => {
-        choices.forEach((item) => { item.disabled = false; });
-        if (status) status.textContent = error?.message || 'AI translation failed. Please check the translation service and try again.';
-      };
-      translateWholePageWithAI(code)
-        .then(finish)
-        .catch((error) => fail(error));
+      if (status) status.textContent = 'Opening ' + langNames[code] + ' page…';
+      try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) {}
+      const target = new URL(window.location.href);
+      if (code === 'en') target.searchParams.delete('lang');
+      else target.searchParams.set('lang', code);
+      // Each language gets its own shareable URL/page view.
+      window.location.assign(target.toString());
     }));
     initIrrigation(); initProtection(); initFarmerAI(); initNotes(); initReminders();
     removeOldArchitecture();
