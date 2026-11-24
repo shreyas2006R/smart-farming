@@ -141,7 +141,7 @@
     if (intro) intro.textContent = t('languageIntro');
     const change = $('#changeLanguage'); if (change) change.textContent = t('changeLanguage');
     // Localise the main navigation and the most-used dashboard labels.
-    const nav = $('#nav'); 
+    const nav = $('.nav');
     const navText = {
       kn:['ವೇದಿಕೆ','ವೈಶಿಷ್ಟ್ಯಗಳು','ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ','ಯೋಜನೆ','ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ತೆರೆಯಿರಿ'],
       ta:['தளம்','அம்சங்கள்','எப்படி செயல்படுகிறது','திட்டம்','டாஷ்போர்டைத் திற'],
@@ -154,7 +154,7 @@
       $('.mobile-nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
     }
     const title = $('.hero h1');
-    if (title && language !== 'en') {
+    if (title) {
       const heroText = {
         kn:'ಹೆಚ್ಚು ಬೆಳೆಸಿ.<br><em>ಕಡಿಮೆ ವ್ಯರ್ಥಮಾಡಿ.</em><br>ಎಲ್ಲವನ್ನೂ ತಿಳಿಯಿರಿ.',
         ta:'அதிகம் விளைவிக்கவும்.<br><em>வீணாக்கத்தைக் குறைக்கவும்.</em><br>அனைத்தையும் அறியவும்.',
@@ -162,8 +162,13 @@
         hi:'ज़्यादा उगाएँ।<br><em>कम बर्बाद करें।</em><br>सब जानें।',
         ml:'കൂടുതൽ വിളയിക്കൂ.<br><em>പാഴാക്കൽ കുറയ്ക്കൂ.</em><br>എല്ലാം അറിയൂ.'
       };
-      title.innerHTML = heroText[language];
+      title.innerHTML = language === 'en'
+        ? 'Grow more.<br><em>Waste less.</em><br>Know everything.'
+        : heroText[language];
     }
+    const change = $('#changeLanguage');
+    if (change) change.textContent = (language === 'en' ? 'Language: English' :
+      'Language: ' + langNames[language]);
   }
 
   function addLanguageButton() {
@@ -171,8 +176,9 @@
     if (!header || $('#changeLanguage')) return;
     const button = document.createElement('button');
     button.id = 'changeLanguage'; button.className = 'language-change';
-    button.textContent = t('changeLanguage');
+    button.textContent = 'Language: English';
     button.type = 'button';
+    button.setAttribute('aria-label', 'Change website language');
     button.addEventListener('click', () => { $('#languageGate').classList.add('visible'); });
     header.append(button);
   }
@@ -366,8 +372,16 @@
     const dashboard = $('#dashboard');
     if (!dashboard) return;
     dashboard.insertAdjacentHTML('afterend', moduleMarkup);
-    // English is the only website language; language selection UI is disabled.
-    applyLanguage('en');
+    addLanguageOverlay();
+    addLanguageButton();
+    const stored = (() => { try { return localStorage.getItem('smartfarm.language.v1'); } catch (_) { return null; } })();
+    applyLanguage(stored && copy[stored] ? stored : 'en');
+    $('.language-choice').forEach((button) => button.addEventListener('click', () => {
+      const code = button.dataset.language;
+      applyLanguage(code);
+      try { localStorage.setItem('smartfarm.language.v1', code); } catch (_) { /* selection still works for this visit */ }
+      $('#languageGate').classList.remove('visible');
+    }));
     initIrrigation(); initProtection(); initFarmerAI(); initNotes(); initReminders();
     removeOldArchitecture();
     const modulesLink = document.createElement('a');
