@@ -162,10 +162,55 @@
     originalPageText.attributes.forEach(({el,attr,value}) => { if (el.isConnected) el.setAttribute(attr,value); });
   }
 
+  let googleTranslateReady = null;
+  function loadGoogleTranslate() {
+    if (window.google && window.google.translate && window.google.translate.TranslateElement) return Promise.resolve();
+    if (googleTranslateReady) return googleTranslateReady;
+    googleTranslateReady = new Promise((resolve, reject) => {
+      window.googleTranslateElementInit = () => {
+        try {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'kn,hi,ta,te,ml',
+            autoDisplay: false
+          }, 'google_translate_element');
+          resolve();
+        } catch (error) { reject(error); }
+      };
+      let host = document.getElementById('google_translate_element');
+      if (!host) {
+        host = document.createElement('div');
+        host.id = 'google_translate_element';
+        host.setAttribute('aria-hidden', 'true');
+        host.style.cssText = 'position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden;';
+        document.body.appendChild(host);
+      }
+      const script = document.createElement('script');
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      script.onerror = () => reject(new Error('The translation service could not load. Check your internet connection and try again.'));
+      document.head.appendChild(script);
+    });
+    return googleTranslateReady;
+  }
+
   async function translateWholePageWithAI(code) {
+    // Use the configured private AI Worker when available; otherwise use the
+    // hosted website translation widget so language selection works on GitHub Pages.
     if (!TRANSLATION_API) {
-      throw new Error('AI translation is not connected yet. The translation Worker must be deployed and its URL configured.');
+      await loadGoogleTranslate();
+      const selector = document.querySelector('#google_translate_element select.goog-te-combo, select.goog-te-combo');
+      if (!selector) throw new Error('The translation service loaded but its language selector is not ready. Please try again.');
+      selector.value = code === 'en' ? '' : code;
+      selector.dispatchEvent(new Event('change', { bubbles: true }));
+      await new Promise((resolve) => window.setTimeout(resolve, 1800));
+      language = code;
+      document.documentElement.lang = ({kn:'kn',ta:'ta',te:'te',hi:'hi',ml:'ml'}[code] || 'en');
+      const languageButton = $('#changeLanguage');
+      if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
+      return;
     }
+
     captureOriginalPageText();
     restoreOriginalPageText();
     const texts = originalPageText.textNodes.filter(x => x.node.isConnected).map(x => x.value);
@@ -192,7 +237,7 @@
       if (el.isConnected && typeof value === 'string') el.setAttribute(attr, value);
     });
     language = code;
-    document.documentElement.lang = code;
+    document.documentElement.lang = ({kn:'kn',ta:'ta',te:'te',hi:'hi',ml:'ml'}[code] || 'en');
     const languageButton = $('#changeLanguage');
     if (languageButton) languageButton.textContent = 'Language: ' + langNames[code];
   }
@@ -497,15 +542,9 @@
         choices.forEach((item) => { item.disabled = false; });
         if (status) status.textContent = error?.message || 'AI translation failed. Please check the translation service and try again.';
       };
-      if (code === 'en') {
-        restoreOriginalPageText();
-        language = 'en';
-        finish();
-      } else {
-        translateWholePageWithAI(code)
-          .then(finish)
-          .catch((error) => fail(error));
-      }
+      translateWholePageWithAI(code)
+        .then(finish)
+        .catch((error) => fail(error));
     }));
     initIrrigation(); initProtection(); initFarmerAI(); initNotes(); initReminders();
     removeOldArchitecture();
