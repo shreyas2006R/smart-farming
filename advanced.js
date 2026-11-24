@@ -183,8 +183,8 @@
       ml:['പ്ലാറ്റ്ഫോം','സവിശേഷതകൾ','എങ്ങനെ പ്രവർത്തിക്കുന്നു','പ്രോജക്റ്റ്','ഡാഷ്ബോർഡ് തുറക്കുക']
     })[language];
     if (nav && navText) {
-      $('.nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
-      $('.mobile-nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
+      all('.nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
+      all('.mobile-nav a').forEach((a, i) => { if (navText[i]) a.textContent = navText[i]; });
       const mobileLast = $('.mobile-nav a:last-child');
       if (mobileLast) mobileLast.textContent = navText[4] + ' ↗';
     }
@@ -413,7 +413,7 @@
     applyLanguage(stored && copy[stored] ? stored : 'en');
     // Always show the language chooser on entry; the saved language is pre-applied until a new choice is made.
     $('#languageGate').classList.add('visible');
-    $('.language-choice').forEach((button) => button.addEventListener('click', () => {
+    all('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
       const status = $('#languageStatus');
       const choices = $('.language-choice');
