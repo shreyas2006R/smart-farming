@@ -536,6 +536,18 @@
       if (hero) hero.addEventListener('animationend', (event) => { if (event.target === hero) finishEntry(); }, { once: true });
       window.setTimeout(finishEntry, 1800);
     }
+    if (runEntryAnimation) {
+      const intro = document.createElement('div');
+      intro.className = 'smartfarm-farm-intro';
+      intro.setAttribute('role', 'status');
+      intro.setAttribute('aria-label', 'Welcome to SmartFarm');
+      intro.innerHTML = '<div class="smartfarm-farm-intro__content"><img src="farmhouse-intro.gif" alt="Animated farmhouse scene with a farmer working among green crop fields"><span>SMART FARMING · SMARTER FUTURE</span></div>';
+      const style = document.createElement('style');
+      style.textContent = '.smartfarm-farm-intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#101b13;animation:sfIntroFade .65s ease 2.55s forwards;pointer-events:none}.smartfarm-farm-intro__content{width:min(88vw,760px);text-align:center;animation:sfIntroRise .7s ease both}.smartfarm-farm-intro img{display:block;width:100%;height:auto;max-height:68vh;object-fit:cover;border:1px solid rgba(202,250,99,.32);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.35)}.smartfarm-farm-intro span{display:block;margin-top:18px;color:#cafa63;font:700 10px/1.4 Arial,sans-serif;letter-spacing:2.4px}@keyframes sfIntroRise{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes sfIntroFade{to{opacity:0;visibility:hidden}}@media(prefers-reduced-motion:reduce){.smartfarm-farm-intro{animation:none;opacity:1}.smartfarm-farm-intro__content{animation:none}}';
+      document.head.appendChild(style);
+      document.body.appendChild(intro);
+      window.setTimeout(() => { intro.remove(); style.remove(); }, 3300);
+    }
     const gate = $('#languageGate');
     if (requestedLanguage !== 'en') gate.classList.remove('visible');
     else if (!sessionStorage.getItem('smartfarm.languageChosen')) gate.classList.add('visible');
