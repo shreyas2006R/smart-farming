@@ -533,7 +533,7 @@
       document.body.classList.add('smartfarm-entry');
       const finishEntry = () => document.body.classList.remove('smartfarm-entry');
       const hero = $('.hero-inner');
-      if (hero) hero.addEventListener('animationend', finishEntry, { once: true });
+      if (hero) hero.addEventListener('animationend', (event) => { if (event.target === hero) finishEntry(); }, { once: true });
       window.setTimeout(finishEntry, 1800);
     }
     const gate = $('#languageGate');
