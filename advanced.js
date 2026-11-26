@@ -524,6 +524,18 @@
     const requestedLanguage = ['kn','hi','ta','te','ml'].includes(pageCode) ? pageCode : 'en';
     language = requestedLanguage;
     document.documentElement.lang = requestedLanguage;
+    let runEntryAnimation = false;
+    try {
+      runEntryAnimation = sessionStorage.getItem('smartfarm.playLanguageEntry') === '1';
+      if (runEntryAnimation) sessionStorage.removeItem('smartfarm.playLanguageEntry');
+    } catch (_) {}
+    if (runEntryAnimation) {
+      document.body.classList.add('smartfarm-entry');
+      const finishEntry = () => document.body.classList.remove('smartfarm-entry');
+      const hero = $('.hero-inner');
+      if (hero) hero.addEventListener('animationend', finishEntry, { once: true });
+      window.setTimeout(finishEntry, 1800);
+    }
     const gate = $('#languageGate');
     if (requestedLanguage !== 'en') gate.classList.remove('visible');
     else if (!sessionStorage.getItem('smartfarm.languageChosen')) gate.classList.add('visible');
@@ -531,7 +543,10 @@
     if (languageButton) languageButton.textContent = 'Language: ' + langNames[requestedLanguage];
     all('.language-choice').forEach((button) => button.addEventListener('click', () => {
       const code = button.dataset.language;
-      try { sessionStorage.setItem('smartfarm.languageChosen', '1'); } catch (_) {}
+      try {
+        sessionStorage.setItem('smartfarm.languageChosen', '1');
+        sessionStorage.setItem('smartfarm.playLanguageEntry', '1');
+      } catch (_) {}
       const target = code === 'en' ? 'index.html' : code + '.html';
       window.location.assign(new URL(target, window.location.href).toString());
     }));
